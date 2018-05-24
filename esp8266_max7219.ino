@@ -1,21 +1,32 @@
-#include <SPI.h>
-#include "LedMatrix.h"
+#include <Arduino.h>
+//#include <SPI.h>
+
+#include "max7219.h"
 
 #define NUMBER_OF_DEVICES 4
 #define CS_PIN 2
-LedMatrix ledMatrix = LedMatrix(NUMBER_OF_DEVICES, CS_PIN);
+
+typedef MAX7219_Display<MAX7219_Driver_CommonAnode> CA_Display;
+typedef MAX7219_Display<MAX7219_Driver_CommonCathode> CC_Display;
+
+CA_Display display = CA_Display();
 
 void setup() {
   Serial.begin(115200); // For debugging output
-  ledMatrix.init();
-  ledMatrix.setIntensity(15); // range is 0-15
-  ledMatrix.setText("MAX7219 Demo");
+
+  display.init();
+  display.setBrightness(15); // range is 0-15
+  display.setText("MAX7219 Demo");
 }
 
 void loop() {
-  ledMatrix.clear();
-  ledMatrix.scrollTextLeft();
-  ledMatrix.drawText();
-  ledMatrix.commit(); // commit transfers the byte buffer to the displays
+  display.clear();
+  
+  //display.scrollTextLeft();
+  display.drawText();
+  
+  display.commit(); // commit transfers the byte buffer to the displays
+  
   delay(10);
 }
+
