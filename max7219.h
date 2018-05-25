@@ -35,14 +35,20 @@ class MAX7219_Display
 
     }
 
+    /**
+       Init display
+    */
     void init()
     {
+      // set Chip Select pin mode
       pinMode(CS_Pin, OUTPUT);
 
+      // init SPI
       SPI.begin ();
       SPI.setDataMode(SPI_MODE0);
       SPI.setClockDivider(SPI_CLOCK_DIV128);
 
+      // init all devices
       for (int device = 0; device < Count; device++) {
         sendByte(device, MAX7219_REG_SCANLIMIT, 7);   // show all 8 digits
         sendByte(device, MAX7219_REG_DECODEMODE, 0);  // using an led matrix (not digits)
@@ -52,14 +58,17 @@ class MAX7219_Display
       }
     }
 
+    /**
+       Set display brightness in range 0..15
+    */
     void setBrightness(int brightness)
     {
       sendByte(MAX7219_REG_INTENSITY, brightness);
     }
 
     /**
-     * Clear display buffer
-     */
+       Clear display buffer
+    */
     void clear()
     {
       for (int i = 0; i < Count * 8; i++) {
@@ -68,16 +77,16 @@ class MAX7219_Display
     }
 
     /**
-     * Set single pixel
-     */
+       Set single pixel
+    */
     void setPixel(int x, int y)
     {
       bitWrite(buffer[x], y, true);
     }
 
     /**
-     * Draw single character
-     */
+       Draw single character
+    */
     void drawChar(char ch, int x, int y)
     {
 
@@ -94,16 +103,44 @@ class MAX7219_Display
     }
 
     /**
-     * Copy updates from buffer to display and send them to devices
-     */
+       Copy updates from buffer to display and send them to devices
+
+       @move: low level driver
+    */
     void commit()
     {
-      for (int col = 0; col < Count * 8; col++) {
-        sendByte(col / 8, col % 8 + 1, buffer[col]);
+      byte updates[8][Count] = {0};
+      bool pending[8] = {0};
+
+      // collect updates
+      for (int i = 0; i < 8; i++) {
+        for (int j = 0; j < Count; j++) {
+          int k = j * 8 + i;
+
+          // check if we need to update display here
+          if (display[k] != buffer[k]) {
+            updates[i][j] = buffer[k];
+            pending[i] = true;
+            display[k] = buffer[k];
+          }
+        }
+      }
+
+      // send pending updates to the devices
+      for (byte i = 0; i < 8; i++) {
+        if (pending[i]) {
+          const byte v = i + 1;
+          byte reg[Count] = {v};
+          sendBytes(reg, updates[i]);
+        }
       }
     }
 
   protected:
+    /**
+       Send single byte to single device.
+       All other devices will be ignored
+    */
     void sendByte(const int device, const byte reg, const byte data)
     {
       byte spidata[Count] = {0};
@@ -113,27 +150,32 @@ class MAX7219_Display
       spiregister[device] = reg;
       spidata[device] = data;
 
-      // enable the line
-      digitalWrite(CS_Pin, LOW);
-
-      // now shift out the data
-      for (int i = 0; i < Count; i++) {
-        SPI.transfer (spiregister[i]);
-        SPI.transfer (spidata[i]);
-      }
-
-      digitalWrite (CS_Pin, HIGH);
+      sendBytes(spiregister, spidata);
     }
 
-    void sendByte (const byte reg, const byte data)
+    /**
+       Send single byte to all devices
+    */
+    void sendByte(const byte reg, const byte data)
+    {
+      byte r[Count] = {reg};
+      byte d[Count] = {data};
+
+      sendBytes(r, d);
+    }
+
+    /**
+       Send multiple bytes to all devices
+    */
+    void sendBytes(const byte reg[], const byte data[])
     {
       // enable the line
       digitalWrite(CS_Pin, LOW);
 
       for (int device = 0; device < Count; device++)
       {
-        SPI.transfer (reg);
-        SPI.transfer (data);
+        SPI.transfer (reg[device]);
+        SPI.transfer (data[device]);
       }
 
       digitalWrite (CS_Pin, HIGH);
