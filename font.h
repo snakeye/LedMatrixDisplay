@@ -1,15 +1,9 @@
 #pragma once
 
-class Font
-{
-  public:
-    // character definitions
-    static byte charset_char[] PROGMEM;
+class Font {
+public:
+	int getCharWidth(char ch);
+	int getStringWidth(String str);
 
-    // character widths
-    static byte charset_width[] PROGMEM;
-
-    // character offsets
-    static int charset_offset[] PROGMEM;
+	byte getCharColumn(char ch, int col);
 };
-
