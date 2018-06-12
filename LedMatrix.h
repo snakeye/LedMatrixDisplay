@@ -156,7 +156,7 @@ class LedMatrix: public DisplayDriver<matrixCount, PinAssignment>, public FrameB
   private:
     typedef DisplayDriver<matrixCount, PinAssignment> Driver;
     typedef FrameBuffer<matrixCount * 8, 8> TFrameBuffer;
-  
+
   public:
     /**
       Set font for display
