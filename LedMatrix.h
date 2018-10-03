@@ -60,6 +60,8 @@ public:
     */
   void init()
   {
+    pinMode(13, OUTPUT);
+    pinMode(14, OUTPUT);
     pinMode(PinAssignment::pinCS, OUTPUT);
 
     // start SPI
