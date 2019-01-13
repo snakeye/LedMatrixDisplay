@@ -31,19 +31,9 @@ namespace MAX7219
 {
 
 /**
-   Template class to define pin assignment
-*/
-template <const int CS_PIN>
-class PinAssignment
-{
-public:
-  static const int pinCS = CS_PIN;
-};
-
-/**
    Display driver
 */
-template <const int matrixCount, class PinAssignment>
+template <const int matrixCount>
 class DisplayDriver
 {
 public:
@@ -166,11 +156,11 @@ protected:
 /**
    Main display class
 */
-template <const int matrixCount, class PinAssignment>
-class LedMatrix : public DisplayDriver<matrixCount, PinAssignment>, public FrameBuffer<matrixCount * 8, 8>
+template <const int matrixCount>
+class LedMatrix : public DisplayDriver<matrixCount>, public FrameBuffer<matrixCount * 8, 8>
 {
 private:
-  typedef DisplayDriver<matrixCount, PinAssignment> Driver;
+  typedef DisplayDriver<matrixCount> Driver;
   typedef FrameBuffer<matrixCount * 8, 8> TFrameBuffer;
 
 public:

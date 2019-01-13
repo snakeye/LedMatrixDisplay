@@ -1,0 +1,20 @@
+{
+    "name": "",
+    "version": "1.0.0",
+    "keywords": "max7219",
+    "description": "",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/snakeye/MAX7219_Display.git"
+    },
+    "authors": [
+        {
+            "name": "Andrey Ovcharov",
+            "email": "andrew.ovcharov@gmail.com",
+            "url": "https://ovcharov.me/",
+            "maintainer": true
+        }
+    ],
+    "frameworks": "arduino",
+    "platforms": "*"
+}
