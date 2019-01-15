@@ -30,6 +30,26 @@
 namespace MAX7219
 {
 
+template<const int rows, const int cols>
+class LedMatrixCommonAnode
+{
+protected:
+};
+
+template<const int rows, const int rows>
+class LedMatrixCommonCathode
+{
+protected:
+};
+
+class LedMatrixCommonAnodeSquare : public LedMatrixCommonAnode<8, 8>
+{
+};
+
+class LedMatrixCommonCathodeSquare : public LedMatrixCommonCathode<8, 8>
+{
+};
+
 /**
    Display driver
 */
@@ -128,40 +148,15 @@ public:
 };
 
 /**
-
-*/
-template <const int width, const int height>
-class FrameBuffer
-{
-protected:
-  /**
-      Set a specific column with a byte value to the frame buffer.
-
-      @scope: frame buffer
-    */
-  void setColumn(int col, byte value)
-  {
-    if (col < 0 || col >= width)
-    {
-      return;
-    }
-
-    frameBuffer[col] = value;
-  }
-
-protected:
-  byte frameBuffer[width] = {0};
-};
-
-/**
    Main display class
 */
-template <const int matrixCount>
-class LedMatrix : public DisplayDriver<matrixCount>, public FrameBuffer<matrixCount * 8, 8>
+template <class MatrixType, const int matrixCount>
+class LedMatrixDisplay 
 {
-private:
-  typedef DisplayDriver<matrixCount> Driver;
-  typedef FrameBuffer<matrixCount * 8, 8> TFrameBuffer;
+public:
+  LedMatrixDisplay() {
+
+  }
 
 public:
   /**
@@ -359,6 +354,9 @@ private:
       myTextAlignmentOffset = (matrixCount * 8 - stringWidth) / 2;
     }
   }
+
+private:
+  byte frameBuffer[matrixCount * MatrixType::cols] = {0};
 
 private:
   Font *font = NULL;
