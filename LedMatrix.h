@@ -150,7 +150,7 @@ public:
 /**
    Main display class
 */
-template <class MatrixType, const int matrixCount>
+template <class MatrixType, const int matrixRows, const int matrixCols>
 class LedMatrixDisplay 
 {
 public:
@@ -159,14 +159,6 @@ public:
   }
 
 public:
-  /**
-      Set font for display
-    */
-  void setFont(Font *newFont)
-  {
-    font = newFont;
-  }
-
   /**
       Sets the intensity on all devices.
       intensity: 0-15
@@ -192,6 +184,34 @@ public:
   }
 
   /**
+      Writes the frame buffer to the displays.
+    */
+  void commit()
+  {
+    byte reg[matrixCount] = {0};
+    byte data[matrixCount] = {0};
+
+    for (int row = 0; row < 8; row++)
+    {
+      for (int i = 0; i < matrixCount; i++)
+      {
+
+        // register value
+        reg[i] = row + 1;
+
+        // data value
+        for (int col = 0; col < 8; col++)
+        {
+          byte pixel = getPixel(i * 8 + col, 8 - row - 1);
+          bitWrite(data[i], col, pixel);
+        }
+      }
+
+      Driver::sendBytes(reg, data);
+    }
+  }
+
+  /**
       Turn on pixel at position (x, y).
 
       @scope: display
@@ -210,6 +230,16 @@ public:
   {
     return bitRead(TFrameBuffer::frameBuffer[x], y);
   }
+
+public:
+  /**
+      Set font for display
+    */
+  void setFont(Font *newFont)
+  {
+    font = newFont;
+  }
+
 
   /**
 
@@ -299,34 +329,6 @@ public:
   void scrollTextLeft()
   {
     myTextOffset = (myTextOffset - 1) % (font->getStringWidth(myText) + matrixCount * 8);
-  }
-
-  /**
-      Writes the frame buffer to the displays.
-    */
-  void commit()
-  {
-    byte reg[matrixCount] = {0};
-    byte data[matrixCount] = {0};
-
-    for (int row = 0; row < 8; row++)
-    {
-      for (int i = 0; i < matrixCount; i++)
-      {
-
-        // register value
-        reg[i] = row + 1;
-
-        // data value
-        for (int col = 0; col < 8; col++)
-        {
-          byte pixel = getPixel(i * 8 + col, 8 - row - 1);
-          bitWrite(data[i], col, pixel);
-        }
-      }
-
-      Driver::sendBytes(reg, data);
-    }
   }
 
 private:
