@@ -3,7 +3,7 @@
 
 #include <LedMatrix.h>
 
-typedef MAX7219::LedMatrixDisplay<MAX7219::LedMatrixCommonCathodeSquare, 1, 1, MAX7219::Test> LedMatrixDisplay;
+typedef MAX7219::LedMatrixDisplay<MAX7219::LedMatrixCommonCathodeSquare, 1, 1, MAX7219::MAX7219_Mock> LedMatrixDisplay;
 
 LedMatrixDisplay display;
 

@@ -3,6 +3,7 @@
 #include "common.h"
 #include "cc_sq.h"
 #include "ca_sq.h"
+#include "ca.h"
 
 void run_tests()
 {
@@ -11,6 +12,7 @@ void run_tests()
     run_tests_common();
     run_tests_cc_sq();
     run_tests_ca_sq();
+    run_tests_ca();
 
     UNITY_END();
 }

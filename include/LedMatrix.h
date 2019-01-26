@@ -56,7 +56,7 @@ class LedMatrixCommonCathodeSquare : public LedMatrixCommonCathode<8, 8>
 {
 };
 
-class Real
+class MAX7219_SPI
 {
 public:
   unsigned int pinCS;
@@ -71,7 +71,7 @@ public:
   }
 };
 
-class Test
+class MAX7219_Mock
 {
 public:
   void init()
@@ -91,6 +91,7 @@ public:
   {
   }
 
+public:
   byte checkRegister(const byte reg)
   {
     return registers[reg];
