@@ -10,8 +10,10 @@ void run_tests()
     UNITY_BEGIN();
 
     run_tests_common();
+
     run_tests_cc_sq();
     run_tests_ca_sq();
+
     run_tests_ca();
 
     UNITY_END();
