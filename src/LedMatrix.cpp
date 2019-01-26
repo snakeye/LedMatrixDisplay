@@ -1,4 +1,4 @@
-#include <SPI.h>
+// #include <SPI.h>
 #include "LedMatrix.h"
 #include "font.h"
 
