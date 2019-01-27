@@ -1,56 +1,69 @@
 #include <unity.h>
 #include "arduino_mock.h"
 
-#include <LedMatrix.h>
+#include <LedMatrixDisplay.h>
 
-typedef MAX7219::LedMatrixDisplay<MAX7219::LedMatrixCommonCathodeSquare, 1, 1, MAX7219::MAX7219_Mock> LedMatrixDisplay;
+// for this test we use 3x2 array of 5x7 matrices
+typedef LedMatrixDisplay::LedMatrix<5, 7> LedMatrix;
+typedef LedMatrixDisplay::LedMatrixArray<LedMatrix, 3, 2> LedMatrixArray;
+typedef LedMatrixDisplay::LedMatrixDisplay<LedMatrixArray> DisplayCommon;
 
-LedMatrixDisplay display;
+DisplayCommon displayCommon;
 
-void test_init()
+void test_display_size()
 {
-    display.init();
+    // correct number of matrices in rows and cols
+    TEST_ASSERT_EQUAL(displayCommon.matrixCols, 3);
+    TEST_ASSERT_EQUAL(displayCommon.matrixRows, 2);
 
-    TEST_ASSERT_EQUAL(display.checkRegister(MAX7219_REG_SCANLIMIT), 8);
-    TEST_ASSERT_EQUAL(display.checkRegister(MAX7219_REG_DECODEMODE), 0);
-    TEST_ASSERT_EQUAL(display.checkRegister(MAX7219_REG_DISPLAYTEST), 0);
-    TEST_ASSERT_EQUAL(display.checkRegister(MAX7219_REG_INTENSITY), 0);
-    TEST_ASSERT_EQUAL(display.checkRegister(MAX7219_REG_SHUTDOWN), 1);
-}
+    // correct number of matrices in general
+    TEST_ASSERT_EQUAL(displayCommon.matrixCount, 6);
 
-void test_intensity()
-{
-    display.setIntensity(4);
-
-    TEST_ASSERT_EQUAL(display.checkRegister(MAX7219_REG_INTENSITY), 4);
+    // correct size of the display in pixels
+    TEST_ASSERT_EQUAL(displayCommon.width, 15);
+    TEST_ASSERT_EQUAL(displayCommon.height, 14);
 }
 
 void test_clear()
 {
-    display.clear();
-    display.commit();
+    displayCommon.clear();
 
-    TEST_ASSERT_EQUAL(display.checkRegister(MAX7219_REG_DIGIT0), 0);
-    TEST_ASSERT_EQUAL(display.checkRegister(MAX7219_REG_DIGIT1), 0);
-    TEST_ASSERT_EQUAL(display.checkRegister(MAX7219_REG_DIGIT2), 0);
-    TEST_ASSERT_EQUAL(display.checkRegister(MAX7219_REG_DIGIT3), 0);
-    TEST_ASSERT_EQUAL(display.checkRegister(MAX7219_REG_DIGIT4), 0);
-    TEST_ASSERT_EQUAL(display.checkRegister(MAX7219_REG_DIGIT5), 0);
-    TEST_ASSERT_EQUAL(display.checkRegister(MAX7219_REG_DIGIT6), 0);
-    TEST_ASSERT_EQUAL(display.checkRegister(MAX7219_REG_DIGIT7), 0);
+    // test if framebuffer is cleared
+    for (int i = 0; i < displayCommon.width; i++)
+    {
+        for (int j = 0; j < displayCommon.height; j++)
+        {
+            TEST_ASSERT_EQUAL(displayCommon.getPixel(i, j), 0);
+        }
+    }
 }
 
 void test_framebuffer_pixel()
 {
-    display.clear();
-    display.setPixel(0, 1);
+    // left top corner
+    displayCommon.clear();
+    displayCommon.setPixel(0, 0);
+    TEST_ASSERT_EQUAL(displayCommon.getPixel(0, 0), 1);
 
-    TEST_ASSERT_EQUAL(display.getPixel(0, 1), 1);
+    // right top corner
+    displayCommon.clear(); 
+    displayCommon.setPixel(displayCommon.width - 1, 0);
+    TEST_ASSERT_EQUAL(displayCommon.getPixel(displayCommon.width - 1, 0), 1);
+
+    // left bottom corner
+    displayCommon.clear(); 
+    displayCommon.setPixel(0, displayCommon.height - 1);
+    TEST_ASSERT_EQUAL(displayCommon.getPixel(0, displayCommon.height - 1), 1);
+
+    // right bottom corner
+    displayCommon.clear(); 
+    displayCommon.setPixel(displayCommon.width - 1, displayCommon.height - 1);
+    TEST_ASSERT_EQUAL(displayCommon.getPixel(displayCommon.width - 1, displayCommon.height - 1), 1);
 }
 
 void run_tests_common()
 {
-    RUN_TEST(test_init);
-    RUN_TEST(test_intensity);
+    RUN_TEST(test_display_size);
     RUN_TEST(test_clear);
+    RUN_TEST(test_framebuffer_pixel);
 }
