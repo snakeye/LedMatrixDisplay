@@ -22,4 +22,4 @@ class LedMatrix8x8 : public LedMatrix<8, 8>
 {
 };
 
-} 
+} // namespace LedMatrixDisplay

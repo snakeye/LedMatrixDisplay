@@ -25,24 +25,24 @@ public:
 
   void setPixel(int x, int y)
   {
-    unsigned int row = y / LedMatrixArray::matrixRows;
-    unsigned int bit = y % LedMatrixArray::matrixRows;
+    unsigned int row = y / LedMatrixArray::matrixHeight;
+    unsigned int bit = y % LedMatrixArray::matrixHeight;
 
     frameBuffer[LedMatrixArray::width * row + x] |= (1 << bit);
   }
 
   void clearPixel(int x, int y)
   {
-    unsigned int row = y / LedMatrixArray::matrixRows;
-    unsigned int bit = y % LedMatrixArray::matrixRows;
+    unsigned int row = y / LedMatrixArray::matrixHeight;
+    unsigned int bit = y % LedMatrixArray::matrixHeight;
 
     frameBuffer[LedMatrixArray::width * row + x] &= ~(1 << bit);
   }
 
   bool getPixel(int x, int y)
   {
-    unsigned int row = y / LedMatrixArray::matrixRows;
-    unsigned int bit = y % LedMatrixArray::matrixRows;
+    unsigned int row = y / LedMatrixArray::matrixHeight;
+    unsigned int bit = y % LedMatrixArray::matrixHeight;
 
     return (frameBuffer[LedMatrixArray::width * row + x] >> bit) & 1 != 0;
   }

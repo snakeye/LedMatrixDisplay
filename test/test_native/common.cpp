@@ -12,8 +12,8 @@ DisplayCommon displayCommon;
 
 void test_display_size()
 {
-    TEST_ASSERT_EQUAL(displayCommon.matrixCols, 5);
-    TEST_ASSERT_EQUAL(displayCommon.matrixRows, 7);
+    TEST_ASSERT_EQUAL(displayCommon.matrixWidth, 5);
+    TEST_ASSERT_EQUAL(displayCommon.matrixHeight, 7);
 
     // correct number of matrices in rows and cols
     TEST_ASSERT_EQUAL(displayCommon.arrayCols, 3);

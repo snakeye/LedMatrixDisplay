@@ -13,8 +13,8 @@ class LedMatrixArray
 {
 public:
   //
-  static const unsigned int matrixCols = LedMatrixType::cols;
-  static const unsigned int matrixRows = LedMatrixType::rows;
+  static const unsigned int matrixWidth = LedMatrixType::cols;
+  static const unsigned int matrixHeight = LedMatrixType::rows;
 
   //
   static const unsigned int arrayCols = _cols;
@@ -26,4 +26,4 @@ public:
   static const unsigned int height = _rows * LedMatrixType::rows;
 };
 
-}
+} // namespace LedMatrixDisplay
