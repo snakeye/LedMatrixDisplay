@@ -12,9 +12,12 @@ DisplayCommon displayCommon;
 
 void test_display_size()
 {
+    TEST_ASSERT_EQUAL(displayCommon.matrixCols, 5);
+    TEST_ASSERT_EQUAL(displayCommon.matrixRows, 7);
+
     // correct number of matrices in rows and cols
-    TEST_ASSERT_EQUAL(displayCommon.matrixCols, 3);
-    TEST_ASSERT_EQUAL(displayCommon.matrixRows, 2);
+    TEST_ASSERT_EQUAL(displayCommon.arrayCols, 3);
+    TEST_ASSERT_EQUAL(displayCommon.arrayRows, 2);
 
     // correct number of matrices in general
     TEST_ASSERT_EQUAL(displayCommon.matrixCount, 6);
@@ -42,21 +45,22 @@ void test_framebuffer_pixel()
 {
     // left top corner
     displayCommon.clear();
-    displayCommon.setPixel(0, 0);
-    TEST_ASSERT_EQUAL(displayCommon.getPixel(0, 0), 1);
+    displayCommon.setPixel(3, 0);
+    TEST_ASSERT_EQUAL(displayCommon.getPixel(3, 0), 1);
+    TEST_ASSERT_EQUAL(displayCommon.getPixel(0, 7), 0);
 
     // right top corner
-    displayCommon.clear(); 
+    displayCommon.clear();
     displayCommon.setPixel(displayCommon.width - 1, 0);
     TEST_ASSERT_EQUAL(displayCommon.getPixel(displayCommon.width - 1, 0), 1);
 
     // left bottom corner
-    displayCommon.clear(); 
+    displayCommon.clear();
     displayCommon.setPixel(0, displayCommon.height - 1);
     TEST_ASSERT_EQUAL(displayCommon.getPixel(0, displayCommon.height - 1), 1);
 
     // right bottom corner
-    displayCommon.clear(); 
+    displayCommon.clear();
     displayCommon.setPixel(displayCommon.width - 1, displayCommon.height - 1);
     TEST_ASSERT_EQUAL(displayCommon.getPixel(displayCommon.width - 1, displayCommon.height - 1), 1);
 }

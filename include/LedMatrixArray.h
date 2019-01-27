@@ -12,8 +12,13 @@ template <class LedMatrixType, const unsigned int _cols, const unsigned int _row
 class LedMatrixArray
 {
 public:
-  static const unsigned int matrixCols = _cols;
-  static const unsigned int matrixRows = _rows;
+  //
+  static const unsigned int matrixCols = LedMatrixType::cols;
+  static const unsigned int matrixRows = LedMatrixType::rows;
+
+  //
+  static const unsigned int arrayCols = _cols;
+  static const unsigned int arrayRows = _rows;
   static const unsigned int matrixCount = _cols * _rows;
 
   // Matrix array dimensions in pixels

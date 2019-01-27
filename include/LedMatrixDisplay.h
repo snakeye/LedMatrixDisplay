@@ -9,7 +9,7 @@ template <class LedMatrixArray>
 class LedMatrixDisplay : public LedMatrixArray
 {
 protected:
-  static const unsigned int frameBufferSize = LedMatrixArray::width * LedMatrixArray::matrixRows;
+  static const unsigned int frameBufferSize = LedMatrixArray::width * LedMatrixArray::arrayRows;
 
 protected:
   byte frameBuffer[frameBufferSize] = {0};
@@ -27,12 +27,16 @@ public:
   {
     unsigned int row = y / LedMatrixArray::matrixRows;
     unsigned int bit = y % LedMatrixArray::matrixRows;
-    
-    frameBuffer[x * row] |= (1 << bit);
+
+    frameBuffer[LedMatrixArray::width * row + x] |= (1 << bit);
   }
 
   void clearPixel(int x, int y)
   {
+    unsigned int row = y / LedMatrixArray::matrixRows;
+    unsigned int bit = y % LedMatrixArray::matrixRows;
+
+    frameBuffer[LedMatrixArray::width * row + x] &= ~(1 << bit);
   }
 
   bool getPixel(int x, int y)
@@ -40,34 +44,8 @@ public:
     unsigned int row = y / LedMatrixArray::matrixRows;
     unsigned int bit = y % LedMatrixArray::matrixRows;
 
-    return frameBuffer[x * row] & (1 << bit) != 0;
+    return (frameBuffer[LedMatrixArray::width * row + x] >> bit) & 1 != 0;
   }
 };
 
-template <class LedMatrixArray, class Driver>
-class LedMatrixDisplayCommonAnode : LedMatrixDisplay<LedMatrixArray>
-{
-public:
-  void init()
-  {
-  }
-
-  void commit()
-  {
-  }
-};
-
-template <class LedMatrixArray, class Driver>
-class LedMatrixDisplayCommonCathode : LedMatrixDisplay<LedMatrixArray>
-{
-public:
-  void init()
-  {
-  }
-
-  void commit()
-  {
-  }
-};
-
-} 
+} // namespace LedMatrixDisplay
