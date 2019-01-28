@@ -44,7 +44,7 @@ public:
     unsigned int row = y / LedMatrixArray::matrixHeight;
     unsigned int bit = y % LedMatrixArray::matrixHeight;
 
-    return (frameBuffer[LedMatrixArray::width * row + x] >> bit) & 1 != 0;
+    return ((frameBuffer[LedMatrixArray::width * row + x] >> bit) & 1) != 0;
   }
 };
 

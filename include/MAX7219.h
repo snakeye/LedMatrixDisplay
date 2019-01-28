@@ -1,5 +1,7 @@
 #pragma once
 
+#include <LedMatrixDisplay.h>
+
 // max7219 registers
 #define MAX7219_REG_NOOP 0x0
 #define MAX7219_REG_DIGIT0 0x1
@@ -19,4 +21,17 @@
 namespace LedMatrixDisplay
 {
 
+namespace MAX7219
+{
+
+template <class LedMatrixArray>
+class LedMatrixDisplayMAX7219 {
+public:
+  void init() {
+  }
+};
+
+
+
+}
 } // namespace LedMatrixDisplay
