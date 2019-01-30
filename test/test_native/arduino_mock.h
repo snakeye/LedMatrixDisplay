@@ -13,31 +13,40 @@ typedef unsigned char byte;
 class MAX7219_Mock
 {
 public:
-  void init()
+  MAX7219_Mock()
   {
+    driverCount = 0;
+    registers = NULL;
   }
 
-  void sendByte(const byte a, const byte b, const byte c)
+  ~MAX7219_Mock()
   {
+    if (registers != NULL)
+    {
+      delete[] registers;
+    }
   }
 
-  void sendByte(const byte reg, const byte data)
+  void init(const unsigned int matrixCount)
   {
-    registers[reg] = data;
+    driverCount = matrixCount;
+    registers = new byte[driverCount * 16];
   }
 
-  void sendBytes(const byte *reg, const byte *data)
+  void sendByte(const unsigned int matrix, const byte reg, const byte value)
   {
+    registers[matrix * driverCount + reg] = value;
   }
 
 public:
   byte checkRegister(const unsigned int matrix, const byte reg)
   {
-    return -1;
+    return registers[matrix * driverCount + reg];
   }
 
 protected:
-  byte registers[16] = {0};
+  unsigned int driverCount;
+  byte *registers;
 };
 
 #endif

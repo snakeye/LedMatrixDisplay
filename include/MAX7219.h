@@ -31,8 +31,11 @@ public:
   virtual void init() = 0;
   virtual void commit() = 0;
 
-  void setIntensity(const unsigned int intensity)
+  void setIntensity(const byte intensity)
   {
+    for(unsigned int i = 0; i < LedMatrixArray::matrixCount; i++) {
+      Driver::sendByte(i, MAX7219_REG_INTENSITY, intensity);
+    }
   }
 };
 
@@ -42,6 +45,7 @@ class LedMatrixDisplayCommonAnode : public LedMatrixDisplayAbstract<LedMatrixArr
 public:
   void init()
   {
+    Driver::init(LedMatrixArray::matrixCount);
   }
 
   void commit()
@@ -55,6 +59,7 @@ class LedMatrixDisplayCommonCathode : public LedMatrixDisplayAbstract<LedMatrixA
 public:
   void init()
   {
+    Driver::init(LedMatrixArray::matrixCount);
   }
 
   void commit()

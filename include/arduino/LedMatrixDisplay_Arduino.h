@@ -24,7 +24,7 @@ public:
   {
   }
 
-  void sendByte(const byte reg, const byte data)
+  void sendByte(const unsigned int matrix, const byte reg, const byte data)
   {
   }
 };
