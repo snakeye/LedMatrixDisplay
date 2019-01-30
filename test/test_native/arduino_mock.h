@@ -12,32 +12,32 @@ typedef unsigned char byte;
 
 class MAX7219_Mock
 {
-  public:
-    void init()
-    {
-    }
+public:
+  void init()
+  {
+  }
 
-    void sendByte(const byte a, const byte b, const byte c)
-    {
-    }
+  void sendByte(const byte a, const byte b, const byte c)
+  {
+  }
 
-    void sendByte(const byte reg, const byte data)
-    {
-        registers[reg] = data;
-    }
+  void sendByte(const byte reg, const byte data)
+  {
+    registers[reg] = data;
+  }
 
-    void sendBytes(const byte *reg, const byte *data)
-    {
-    }
+  void sendBytes(const byte *reg, const byte *data)
+  {
+  }
 
-  public:
-    byte checkRegister(const byte reg)
-    {
-        return registers[reg];
-    }
+public:
+  byte checkRegister(const unsigned int matrix, const byte reg)
+  {
+    return -1;
+  }
 
-  protected:
-    byte registers[16] = {0};
+protected:
+  byte registers[16] = {0};
 };
 
 #endif

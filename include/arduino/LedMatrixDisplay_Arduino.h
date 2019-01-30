@@ -14,7 +14,7 @@
 namespace LedMatrixDisplay
 {
 
-class MAX7219_SPI : Driver
+class MAX7219_SPI : public Driver
 {
 public:
   unsigned int pinCS;

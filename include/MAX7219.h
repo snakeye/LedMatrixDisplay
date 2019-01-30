@@ -24,14 +24,43 @@ namespace LedMatrixDisplay
 namespace MAX7219
 {
 
-template <class LedMatrixArray>
-class LedMatrixDisplayMAX7219 {
+template <class LedMatrixArray, class Driver>
+class LedMatrixDisplayAbstract : public LedMatrixDisplay<LedMatrixArray>, public Driver
+{
 public:
-  void init() {
+  virtual void init() = 0;
+  virtual void commit() = 0;
+
+  void setIntensity(const unsigned int intensity)
+  {
   }
 };
 
+template <class LedMatrixArray, class Driver>
+class LedMatrixDisplayCommonAnode : public LedMatrixDisplayAbstract<LedMatrixArray, Driver>
+{
+public:
+  void init()
+  {
+  }
 
+  void commit()
+  {
+  }
+};
 
-}
+template <class LedMatrixArray, class Driver>
+class LedMatrixDisplayCommonCathode : public LedMatrixDisplayAbstract<LedMatrixArray, Driver>
+{
+public:
+  void init()
+  {
+  }
+
+  void commit()
+  {
+  }
+};
+
+} // namespace MAX7219
 } // namespace LedMatrixDisplay
