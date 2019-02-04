@@ -4,7 +4,7 @@
 
 ## Led Matrix Array
 
-## Types of internal connections
+## Types of internal connections: terminology
 
 ## Connection to MAX7219 drivers
 

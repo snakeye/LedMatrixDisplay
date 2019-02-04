@@ -3,6 +3,8 @@
 #ifdef ARDUINO
 #include <Arduino.h>
 #else
+#include <vector>
+
 typedef unsigned char byte;
 
 #define bitRead(value, bit) (((value) >> (bit)) & 0x01)
@@ -13,29 +15,39 @@ typedef unsigned char byte;
 class MAX7219_Mock
 {
 public:
-  MAX7219_Mock()
+  void init(const unsigned int _driverCount)
   {
-    driverCount = 0;
-    registers = NULL;
+    driverCount = _driverCount;
+    registers.resize(_driverCount * 16);
   }
 
-  ~MAX7219_Mock()
+  // send the same data to all drivers
+  void send(const byte reg, const byte value)
   {
-    if (registers != NULL)
+    for (unsigned int matrix = 0; matrix < driverCount; matrix++)
     {
-      delete[] registers;
+      registers[matrix * driverCount + reg] = value;
     }
   }
 
-  void init(const unsigned int matrixCount)
+  // send the value to the given matrix
+  void send(const unsigned int matrix, const byte reg, const byte value)
   {
-    driverCount = matrixCount;
-    registers = new byte[driverCount * 16];
+    std::vector<byte> registers(driverCount);
+    registers[matrix] = reg;
+
+    std::vector<byte> values(driverCount);
+    values[matrix] = value;
+
+    send(&registers[0], &values[0]);
   }
 
-  void sendByte(const unsigned int matrix, const byte reg, const byte value)
+  // send values to the given matrix
+  void send(const byte *reg, const byte *values)
   {
-    registers[matrix * driverCount + reg] = value;
+    for(unsigned int matrix = 0; matrix < driverCount; matrix++) {
+      registers[reg[matrix]] = values[matrix];
+    }
   }
 
 public:
@@ -46,7 +58,7 @@ public:
 
 protected:
   unsigned int driverCount;
-  byte *registers;
+  std::vector<byte> registers;
 };
 
 #endif

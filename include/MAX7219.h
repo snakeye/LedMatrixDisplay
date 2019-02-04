@@ -33,19 +33,22 @@ public:
 
   void setIntensity(const byte intensity)
   {
-    for(unsigned int i = 0; i < LedMatrixArray::matrixCount; i++) {
-      Driver::sendByte(i, MAX7219_REG_INTENSITY, intensity);
-    }
+    Driver::send(MAX7219_REG_INTENSITY, intensity);
   }
 };
 
 template <class LedMatrixArray, class Driver>
-class LedMatrixDisplayCommonAnode : public LedMatrixDisplayAbstract<LedMatrixArray, Driver>
+class LedMatrixDisplayColumnAnode : public LedMatrixDisplayAbstract<LedMatrixArray, Driver>
 {
 public:
   void init()
   {
     Driver::init(LedMatrixArray::matrixCount);
+
+    Driver::send(MAX7219_REG_DECODEMODE, 0);
+    Driver::send(MAX7219_REG_SCANLIMIT, LedMatrixArray::matrixHeight);
+    Driver::send(MAX7219_REG_SHUTDOWN, 1);
+    Driver::send(MAX7219_REG_DISPLAYTEST, 0);
   }
 
   void commit()
@@ -54,12 +57,17 @@ public:
 };
 
 template <class LedMatrixArray, class Driver>
-class LedMatrixDisplayCommonCathode : public LedMatrixDisplayAbstract<LedMatrixArray, Driver>
+class LedMatrixDisplayColumnCathode : public LedMatrixDisplayAbstract<LedMatrixArray, Driver>
 {
 public:
   void init()
   {
     Driver::init(LedMatrixArray::matrixCount);
+
+    Driver::send(MAX7219_REG_DECODEMODE, 0);
+    Driver::send(MAX7219_REG_SCANLIMIT, LedMatrixArray::matrixWidth);
+    Driver::send(MAX7219_REG_SHUTDOWN, 1);
+    Driver::send(MAX7219_REG_DISPLAYTEST, 0);
   }
 
   void commit()
