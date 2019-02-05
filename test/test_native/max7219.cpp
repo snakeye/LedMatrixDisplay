@@ -87,6 +87,7 @@ void test_display_ca_commit() {
     displayMAX7219CA.commit();
 
     TEST_ASSERT_EQUAL(4, displayMAX7219CA.checkRegister(0, MAX7219_REG_DIGIT0));
+    TEST_ASSERT_EQUAL(0, displayMAX7219CA.checkRegister(0, MAX7219_REG_DIGIT2));
 }
 
 void test_display_cc_commit() {
@@ -95,6 +96,7 @@ void test_display_cc_commit() {
     displayMAX7219CC.commit();
 
     TEST_ASSERT_EQUAL(4, displayMAX7219CC.checkRegister(0, MAX7219_REG_DIGIT0));
+    TEST_ASSERT_EQUAL(0, displayMAX7219CC.checkRegister(0, MAX7219_REG_DIGIT2));
 }
 
 void run_tests_max7219()

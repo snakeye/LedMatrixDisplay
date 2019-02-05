@@ -45,8 +45,9 @@ public:
   // send values to the given matrix
   void send(const byte *reg, const byte *values)
   {
-    for(unsigned int matrix = 0; matrix < driverCount; matrix++) {
-      registers[reg[matrix]] = values[matrix];
+    for (unsigned int matrix = 0; matrix < driverCount; matrix++)
+    {
+      registers[matrix * driverCount + reg[matrix]] = values[matrix];
     }
   }
 

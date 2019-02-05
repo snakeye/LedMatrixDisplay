@@ -53,6 +53,37 @@ public:
 
   void commit()
   {
+    // process rows in all matrices
+    for (unsigned int row = 0; row < LedMatrixArray::matrixHeight; row++)
+    {
+      byte registers[LedMatrixArray::matrixCount] = {0};
+      byte values[LedMatrixArray::matrixCount] = {0};
+
+      // cycle matrices by columns and rows
+      for (unsigned int my = 0; my < LedMatrixArray::arrayRows; my++)
+      {
+        for (unsigned int mx = 0; mx < LedMatrixArray::arrayCols; mx++)
+        {
+          // flatten matrix index
+          unsigned int matrix = my * LedMatrixArray::arrayCols + mx;
+
+          byte value = 0;
+          for (unsigned int col = 0; col < LedMatrixArray::matrixWidth; col++)
+          {
+            if (this->getPixel(mx * LedMatrixArray::matrixWidth + col, my * LedMatrixArray::matrixHeight + row))
+            {
+              value |= (1 << col);
+            }
+          }
+
+          registers[matrix] = MAX7219_REG_DIGIT0 + row;
+          values[matrix] = value;
+        }
+      }
+
+      // send
+      Driver::send(&registers[0], &values[0]);
+    }
   }
 };
 
@@ -72,6 +103,37 @@ public:
 
   void commit()
   {
+    // process rows in all matrices
+    for (unsigned int col = 0; col < LedMatrixArray::matrixWidth; col++)
+    {
+      byte registers[LedMatrixArray::matrixCount] = {0};
+      byte values[LedMatrixArray::matrixCount] = {0};
+
+      // cycle matrices by columns and rows
+      for (unsigned int my = 0; my < LedMatrixArray::arrayRows; my++)
+      {
+        for (unsigned int mx = 0; mx < LedMatrixArray::arrayCols; mx++)
+        {
+          // flatten matrix index
+          unsigned int matrix = my * LedMatrixArray::arrayCols + mx;
+
+          byte value = 0;
+          for (unsigned int row = 0; row < LedMatrixArray::matrixHeight; row++)
+          {
+            if (this->getPixel(mx * LedMatrixArray::matrixWidth + col, my * LedMatrixArray::matrixHeight + row))
+            {
+              value |= (1 << row);
+            }
+          }
+
+          registers[matrix] = MAX7219_REG_DIGIT0 + col;
+          values[matrix] = value;
+        }
+      }
+
+      // send
+      Driver::send(&registers[0], &values[0]);
+    }
   }
 };
 
