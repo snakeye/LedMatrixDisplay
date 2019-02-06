@@ -4,13 +4,13 @@ namespace LedMatrixDisplay
 {
 class Driver
 {
-  public:
-    void init()
-    {
-    }
+public:
+  void init()
+  {
+  }
 
-    void commit()
-    {
-    }
+  void commit()
+  {
+  }
 };
 } // namespace LedMatrixDisplay

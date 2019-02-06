@@ -1,6 +1,6 @@
 #include <unity.h>
 #include "arduino_mock.h"
-
+#include <iostream>
 #include <MAX7219.h>
 
 // for this test we use 3x2 array of 5x7 matrices
@@ -81,22 +81,36 @@ void test_display_cc_intensity()
     }
 }
 
-void test_display_ca_commit() {
+void test_display_ca_commit()
+{
     displayMAX7219CA.clear();
     displayMAX7219CA.setPixel(2, 0);
     displayMAX7219CA.commit();
 
     TEST_ASSERT_EQUAL(4, displayMAX7219CA.checkRegister(0, MAX7219_REG_DIGIT0));
     TEST_ASSERT_EQUAL(0, displayMAX7219CA.checkRegister(0, MAX7219_REG_DIGIT2));
+
+    displayMAX7219CA.clear();
+    displayMAX7219CA.setPixel(6, 8);
+    displayMAX7219CA.commit();
+
+    TEST_ASSERT_EQUAL(2, displayMAX7219CA.checkRegister(4, MAX7219_REG_DIGIT1));
 }
 
-void test_display_cc_commit() {
+void test_display_cc_commit()
+{
     displayMAX7219CC.clear();
     displayMAX7219CC.setPixel(0, 2);
     displayMAX7219CC.commit();
 
     TEST_ASSERT_EQUAL(4, displayMAX7219CC.checkRegister(0, MAX7219_REG_DIGIT0));
     TEST_ASSERT_EQUAL(0, displayMAX7219CC.checkRegister(0, MAX7219_REG_DIGIT2));
+
+    displayMAX7219CC.clear();
+    displayMAX7219CC.setPixel(6, 8);
+    displayMAX7219CC.commit();
+
+    TEST_ASSERT_EQUAL(2, displayMAX7219CC.checkRegister(4, MAX7219_REG_DIGIT1));
 }
 
 void run_tests_max7219()
