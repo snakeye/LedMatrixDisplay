@@ -1,8 +1,5 @@
 #pragma once
 
-#include <Arduino.h>
-#include <SPI.h>
-
 #include "Driver.h"
 
 #define TEXT_ALIGN_LEFT 0      // Text is aligned to left side of the display
@@ -12,6 +9,8 @@
 #define TEXT_ALIGN_CENTER 4    // center
 
 namespace LedMatrixDisplay
+{
+namespace Arduino
 {
 
 class MAX7219_SPI : public Driver
@@ -24,9 +23,22 @@ public:
   {
   }
 
-  void sendByte(const unsigned int matrix, const byte reg, const byte data)
+  void sendByte(const unsigned int matrix, const unsigned char reg, const unsigned char data)
   {
   }
 };
 
+template <class LedMatrixArray>
+class LedMatrixDisplayColumnAnode : public LedMatrixDisplayColumnAnode<LedMatrixArray, MAX7219_SPI>
+{
+public:
+};
+
+template <class LedMatrixArray>
+class LedMatrixDisplayColumnCathode : public LedMatrixDisplayColumnCathode<LedMatrixArray, MAX7219_SPI>
+{
+public:
+};
+
+} // namespace Arduino
 } // namespace LedMatrixDisplay
