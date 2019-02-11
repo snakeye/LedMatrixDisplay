@@ -16,28 +16,39 @@ namespace MAX7219
 namespace Arduino
 {
 
+template<const unsigned int pinCS>
 class MAX7219_SPI : public Driver
 {
 public:
-  unsigned int pinCS;
+  void init(const unsigned int _driverCount)
+  {
 
-public:
-  void init(const unsigned int _driverCount);
-  void send(const unsigned char reg, const unsigned char value);
-  void send(const unsigned int matrix, const unsigned char reg, const unsigned char value);
-  void send(const unsigned char *reg, const unsigned char *values);
+  }
+
+  void send(const unsigned char reg, const unsigned char value)
+  {
+
+  }
+
+  void send(const unsigned int matrix, const unsigned char reg, const unsigned char value)
+  {
+
+  }
+
+  void send(const unsigned char *reg, const unsigned char *values)
+  {
+    
+  }
 };
 
-template <class LedMatrixArray>
-class LedMatrixDisplayColumnAnodeY : public LedMatrixDisplayColumnAnode<LedMatrixArray, MAX7219_SPI>
+template <class LedMatrixArray, const unsigned int pinCS>
+class LedMatrixDisplayColumnAnodeSPI : public LedMatrixDisplayColumnAnode<LedMatrixArray, MAX7219_SPI<pinCS>>
 {
-public:
 };
 
-template <class LedMatrixArray>
-class LedMatrixDisplayColumnCathodeY : public LedMatrixDisplayColumnCathode<LedMatrixArray, MAX7219_SPI>
+template <class LedMatrixArray, const unsigned int pinCS>
+class LedMatrixDisplayColumnCathodeSPI : public LedMatrixDisplayColumnCathode<LedMatrixArray, MAX7219_SPI<pinCS>>
 {
-public:
 };
 
 } // namespace Arduino

@@ -7,7 +7,7 @@
 typedef LedMatrixDisplay::LedMatrix<8, 8> LedMatrix;
 typedef LedMatrixDisplay::LedMatrixArray<LedMatrix, 5, 1> LedMatrixArray;
 
-typedef LedMatrixDisplay::MAX7219::Arduino::LedMatrixDisplayColumnAnodeY<LedMatrixArray> Display;
+typedef LedMatrixDisplay::MAX7219::Arduino::LedMatrixDisplayColumnAnodeSPI<LedMatrixArray, 16> Display;
 Display display;
 
 void test_display()
