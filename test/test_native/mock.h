@@ -1,16 +1,6 @@
 #pragma once
 
-#ifdef ARDUINO
-#include <Arduino.h>
-#else
 #include <vector>
-
-typedef unsigned char byte;
-
-#define bitRead(value, bit) (((value) >> (bit)) & 0x01)
-#define bitSet(value, bit) ((value) |= (1UL << (bit)))
-#define bitClear(value, bit) ((value) &= ~(1UL << (bit)))
-#define bitWrite(value, bit, bitvalue) (bitvalue ? bitSet(value, bit) : bitClear(value, bit))
 
 class MAX7219_Mock
 {
@@ -22,7 +12,7 @@ public:
   }
 
   // send the same data to all drivers
-  void send(const byte reg, const byte value)
+  void send(const unsigned char reg, const unsigned char value)
   {
     for (unsigned int matrix = 0; matrix < driverCount; matrix++)
     {
@@ -31,19 +21,19 @@ public:
   }
 
   // send the value to the given matrix
-  void send(const unsigned int matrix, const byte reg, const byte value)
+  void send(const unsigned int matrix, const unsigned char reg, const unsigned char value)
   {
-    std::vector<byte> registers(driverCount);
+    std::vector<unsigned char> registers(driverCount);
     registers[matrix] = reg;
 
-    std::vector<byte> values(driverCount);
+    std::vector<unsigned char> values(driverCount);
     values[matrix] = value;
 
     send(&registers[0], &values[0]);
   }
 
   // send values to the given matrix
-  void send(const byte *reg, const byte *values)
+  void send(const unsigned char *reg, const unsigned char *values)
   {
     for (unsigned int matrix = 0; matrix < driverCount; matrix++)
     {
@@ -52,14 +42,12 @@ public:
   }
 
 public:
-  byte checkRegister(const unsigned int matrix, const byte reg)
+  unsigned char checkRegister(const unsigned int matrix, const unsigned char reg)
   {
     return registers[matrix * driverCount + reg];
   }
 
 protected:
   unsigned int driverCount;
-  std::vector<byte> registers;
+  std::vector<unsigned char> registers;
 };
-
-#endif

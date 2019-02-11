@@ -12,7 +12,7 @@ protected:
   static const unsigned int frameBufferSize = LedMatrixArray::width * LedMatrixArray::arrayRows;
 
 protected:
-  byte frameBuffer[frameBufferSize] = {0};
+  unsigned char frameBuffer[frameBufferSize] = {0};
 
 public:
   void clear()

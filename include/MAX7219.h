@@ -31,7 +31,7 @@ public:
   virtual void init() = 0;
   virtual void commit() = 0;
 
-  void setIntensity(const byte intensity)
+  void setIntensity(const unsigned char intensity)
   {
     Driver::send(MAX7219_REG_INTENSITY, intensity);
   }
@@ -56,8 +56,8 @@ public:
     // process rows in all matrices
     for (unsigned int row = 0; row < LedMatrixArray::matrixHeight; row++)
     {
-      byte registers[LedMatrixArray::matrixCount] = {0};
-      byte values[LedMatrixArray::matrixCount] = {0};
+      unsigned char registers[LedMatrixArray::matrixCount] = {0};
+      unsigned char values[LedMatrixArray::matrixCount] = {0};
 
       // cycle matrices by columns and rows
       for (unsigned int my = 0; my < LedMatrixArray::arrayRows; my++)
@@ -67,7 +67,7 @@ public:
           // flatten matrix index
           unsigned int matrix = my * LedMatrixArray::arrayCols + mx;
 
-          byte value = 0;
+          unsigned char value = 0;
           for (unsigned int col = 0; col < LedMatrixArray::matrixWidth; col++)
           {
             if (this->getPixel(mx * LedMatrixArray::matrixWidth + col, my * LedMatrixArray::matrixHeight + row))
@@ -106,8 +106,8 @@ public:
     // process rows in all matrices
     for (unsigned int col = 0; col < LedMatrixArray::matrixWidth; col++)
     {
-      byte registers[LedMatrixArray::matrixCount] = {0};
-      byte values[LedMatrixArray::matrixCount] = {0};
+      unsigned char registers[LedMatrixArray::matrixCount] = {0};
+      unsigned char values[LedMatrixArray::matrixCount] = {0};
 
       // cycle matrices by columns and rows
       for (unsigned int my = 0; my < LedMatrixArray::arrayRows; my++)
@@ -117,7 +117,7 @@ public:
           // flatten matrix index
           unsigned int matrix = my * LedMatrixArray::arrayCols + mx;
 
-          byte value = 0;
+          unsigned char value = 0;
           for (unsigned int row = 0; row < LedMatrixArray::matrixHeight; row++)
           {
             if (this->getPixel(mx * LedMatrixArray::matrixWidth + col, my * LedMatrixArray::matrixHeight + row))

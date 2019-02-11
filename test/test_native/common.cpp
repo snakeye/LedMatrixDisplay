@@ -1,7 +1,8 @@
 #include <unity.h>
-#include "arduino_mock.h"
 
 #include <LedMatrixDisplay.h>
+
+#include "mock.h"
 
 // for this test we use 3x2 array of 5x7 matrices
 typedef LedMatrixDisplay::LedMatrix<5, 7> LedMatrix;
