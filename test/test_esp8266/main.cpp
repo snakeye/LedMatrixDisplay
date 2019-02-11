@@ -1,5 +1,7 @@
 #include <unity.h>
 
+#include <Arduino.h>
+
 #include <arduino/LedMatrixDisplay_Arduino.h>
 
 typedef LedMatrixDisplay::LedMatrix<8, 8> LedMatrix;
@@ -17,7 +19,7 @@ void test_display()
     display.commit();
 }
 
-void run_tests()
+void setup()
 {
     UNITY_BEGIN();
 
@@ -26,24 +28,6 @@ void run_tests()
     UNITY_END();
 }
 
-#ifdef ARDUINO
-
-#include <Arduino.h>
-
-void setup()
-{
-    run_tests();
-}
-
 void loop()
 {
 }
-
-#else
-
-int main(int argc, char **argv)
-{
-    return 0;
-}
-
-#endif

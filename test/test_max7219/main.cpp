@@ -1,7 +1,6 @@
 #include <unity.h>
 
 #include <MAX7219.h>
-
 #include "mock.h"
 
 // for this test we use 3x2 array of 5x7 matrices
@@ -114,8 +113,10 @@ void test_display_cc_commit()
     TEST_ASSERT_EQUAL(2, displayMAX7219CC.checkRegister(4, MAX7219_REG_DIGIT1));
 }
 
-void run_tests_max7219()
+int main(int argc, char **argv)
 {
+    UNITY_BEGIN();
+
     RUN_TEST(test_display_ca_init);
     RUN_TEST(test_display_cc_init);
 
@@ -124,4 +125,8 @@ void run_tests_max7219()
 
     RUN_TEST(test_display_ca_commit);
     RUN_TEST(test_display_cc_commit);
+
+    UNITY_END();
+
+    return 0;
 }
