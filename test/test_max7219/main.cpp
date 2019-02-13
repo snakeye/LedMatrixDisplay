@@ -17,7 +17,7 @@ void test_display_ca_init()
 {
     displayMAX7219CA.init();
 
-    for (int i = 0; i < displayMAX7219CA.matrixCount; i++)
+    for (unsigned int i = 0; i < displayMAX7219CA.matrixCount; i++)
     {
         TEST_ASSERT_EQUAL(0, displayMAX7219CA.checkRegister(i, MAX7219_REG_DECODEMODE));
         TEST_ASSERT_EQUAL(displayMAX7219CA.matrixHeight, displayMAX7219CA.checkRegister(i, MAX7219_REG_SCANLIMIT));
@@ -30,7 +30,7 @@ void test_display_cc_init()
 {
     displayMAX7219CC.init();
 
-    for (int i = 0; i < displayMAX7219CC.matrixCount; i++)
+    for (unsigned int i = 0; i < displayMAX7219CC.matrixCount; i++)
     {
         TEST_ASSERT_EQUAL(0, displayMAX7219CC.checkRegister(i, MAX7219_REG_DECODEMODE));
         TEST_ASSERT_EQUAL(displayMAX7219CC.matrixWidth, displayMAX7219CC.checkRegister(i, MAX7219_REG_SCANLIMIT));
@@ -42,19 +42,19 @@ void test_display_cc_init()
 void test_display_ca_intensity()
 {
     displayMAX7219CA.setIntensity(4);
-    for (int i = 0; i < displayMAX7219CA.matrixCount; i++)
+    for (unsigned int i = 0; i < displayMAX7219CA.matrixCount; i++)
     {
         TEST_ASSERT_EQUAL(4, displayMAX7219CA.checkRegister(i, MAX7219_REG_INTENSITY));
     }
 
     displayMAX7219CA.setIntensity(0);
-    for (int i = 0; i < displayMAX7219CA.matrixCount; i++)
+    for (unsigned int i = 0; i < displayMAX7219CA.matrixCount; i++)
     {
         TEST_ASSERT_EQUAL(0, displayMAX7219CA.checkRegister(i, MAX7219_REG_INTENSITY));
     }
 
     displayMAX7219CA.setIntensity(15);
-    for (int i = 0; i < displayMAX7219CA.matrixCount; i++)
+    for (unsigned int i = 0; i < displayMAX7219CA.matrixCount; i++)
     {
         TEST_ASSERT_EQUAL(15, displayMAX7219CA.checkRegister(i, MAX7219_REG_INTENSITY));
     }
@@ -63,19 +63,19 @@ void test_display_ca_intensity()
 void test_display_cc_intensity()
 {
     displayMAX7219CC.setIntensity(4);
-    for (int i = 0; i < displayMAX7219CA.matrixCount; i++)
+    for (unsigned int i = 0; i < displayMAX7219CA.matrixCount; i++)
     {
         TEST_ASSERT_EQUAL(4, displayMAX7219CC.checkRegister(i, MAX7219_REG_INTENSITY));
     }
 
     displayMAX7219CC.setIntensity(0);
-    for (int i = 0; i < displayMAX7219CA.matrixCount; i++)
+    for (unsigned int i = 0; i < displayMAX7219CA.matrixCount; i++)
     {
         TEST_ASSERT_EQUAL(0, displayMAX7219CC.checkRegister(i, MAX7219_REG_INTENSITY));
     }
 
     displayMAX7219CC.setIntensity(15);
-    for (int i = 0; i < displayMAX7219CA.matrixCount; i++)
+    for (unsigned int i = 0; i < displayMAX7219CA.matrixCount; i++)
     {
         TEST_ASSERT_EQUAL(15, displayMAX7219CC.checkRegister(i, MAX7219_REG_INTENSITY));
     }
@@ -113,6 +113,32 @@ void test_display_cc_commit()
     TEST_ASSERT_EQUAL(2, displayMAX7219CC.checkRegister(4, MAX7219_REG_DIGIT1));
 }
 
+#ifdef ARDUINO
+
+#include <Arduino.h>
+
+void setup()
+{
+    UNITY_BEGIN();
+
+    RUN_TEST(test_display_ca_init);
+    RUN_TEST(test_display_cc_init);
+
+    RUN_TEST(test_display_ca_intensity);
+    RUN_TEST(test_display_cc_intensity);
+
+    RUN_TEST(test_display_ca_commit);
+    RUN_TEST(test_display_cc_commit);
+
+    UNITY_END();
+}
+
+void loop()
+{
+}
+
+#else
+
 int main(int argc, char **argv)
 {
     UNITY_BEGIN();
@@ -130,3 +156,5 @@ int main(int argc, char **argv)
 
     return 0;
 }
+
+#endif
