@@ -31,9 +31,9 @@ void test_clear()
     displayCommon.clear();
 
     // test if framebuffer is cleared
-    for (int i = 0; i < displayCommon.width; i++)
+    for (unsigned int i = 0; i < displayCommon.width; i++)
     {
-        for (int j = 0; j < displayCommon.height; j++)
+        for (unsigned int j = 0; j < displayCommon.height; j++)
         {
             TEST_ASSERT_EQUAL(0, displayCommon.getPixel(i, j));
         }
@@ -46,9 +46,9 @@ void test_framebuffer_pixel()
     displayCommon.clear();
     displayCommon.setPixel(3, 0);
 
-    for (int i = 0; i < displayCommon.width; i++)
+    for (unsigned int i = 0; i < displayCommon.width; i++)
     {
-        for (int j = 0; j < displayCommon.height; j++)
+        for (unsigned int j = 0; j < displayCommon.height; j++)
         {
             if (!(i == 3 && j == 0))
             {
