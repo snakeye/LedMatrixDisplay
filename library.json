@@ -7,13 +7,11 @@
         "type": "git",
         "url": "https://github.com/snakeye/LedMatrixDisplay.git"
     },
-    "authors": [
-        {
-            "name": "Andrey Ovcharov",
-            "email": "andrew.ovcharov@gmail.com",
-            "maintainer": true
-        }
-    ],
+    "authors": [{
+        "name": "Andrey Ovcharov",
+        "email": "andrew.ovcharov@gmail.com",
+        "maintainer": true
+    }],
     "frameworks": "arduino",
     "platforms": [
         "espressif8266"
