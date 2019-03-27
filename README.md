@@ -9,24 +9,43 @@ Based on https://github.com/squix78/MAX7219LedMatrix
 ```cpp
 #include <Arduino.h>
 
-#include <LedMatrix.h>
+#include <LedMatrixDisplay.h>
 
-typedef LedMatrixDisplay::LedMatrix<8, 8> LedMatrix;
-typedef LedMatrixDisplay::LedMatrixArray<LedMatrix, 5, 1> LedMatrixArray;
+using namespace LedMatrixDisplay;
 
-typedef LedMatrixDisplay::MAX7219::Arduino::LedMatrixDisplayColumnAnodeSPI<LedMatrixArray, 16> Display;
-Display display;
+// matrix type definition
+typedef Matrix<8, 8> TMatrix;
+
+// matrix array definition
+typedef MatrixArray<TMatrix, 5, 1> TMatrixArray;
+
+// canvas definition
+typedef Canvas<TMatrixArray> TCanvas;
+
+// display definition
+typedef DisplayColumnCathode<TCanvas, 16> TDisplay;
+
+TDisplay display;
 
 void setup()
 {
     display.init();
+    display.setIntensity(2);
     display.clear();
-    display.setPixel(3, 0);
-    display.setPixel(0, 2);
     display.commit();
 }
 
 void loop()
 {
+    static int i = 0;
+
+    display.clear();
+    display.setPixel(i, 0);
+    display.commit();
+
+    i = (i + 1) % 40;
+
+    delay(100);
 }
+
 ```
