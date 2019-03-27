@@ -1,51 +1,19 @@
 #pragma once
 
-#include "LedMatrixArray.h"
+#include <base/Canvas.h>
+#include <driver/MAX7219.h>
 
 namespace LedMatrixDisplay
 {
 
-template <class LedMatrixArray>
-class LedMatrixDisplay : public LedMatrixArray
+template <class Canvas, const unsigned int pinCS>
+class DisplayColumnAnode : public MAX7219::MAX7219ColumnAnode<Canvas, pinCS>
 {
-protected:
-  static const unsigned int frameBufferSize = LedMatrixArray::width * LedMatrixArray::arrayRows;
+};
 
-protected:
-  unsigned char frameBuffer[frameBufferSize] = {0};
-
-public:
-  void clear()
-  {
-    for (int i = 0; i < frameBufferSize; i++)
-    {
-      frameBuffer[i] = 0;
-    }
-  }
-
-  void setPixel(int x, int y)
-  {
-    unsigned int row = y / LedMatrixArray::matrixHeight;
-    unsigned int bit = y % LedMatrixArray::matrixHeight;
-
-    frameBuffer[LedMatrixArray::width * row + x] |= (1 << bit);
-  }
-
-  void clearPixel(int x, int y)
-  {
-    unsigned int row = y / LedMatrixArray::matrixHeight;
-    unsigned int bit = y % LedMatrixArray::matrixHeight;
-
-    frameBuffer[LedMatrixArray::width * row + x] &= ~(1 << bit);
-  }
-
-  bool getPixel(int x, int y)
-  {
-    unsigned int row = y / LedMatrixArray::matrixHeight;
-    unsigned int bit = y % LedMatrixArray::matrixHeight;
-
-    return ((frameBuffer[LedMatrixArray::width * row + x] >> bit) & 1) != 0;
-  }
+template <class Canvas, const unsigned int pinCS>
+class DisplayColumnCathode : public MAX7219::MAX7219ColumnCathode<Canvas, pinCS>
+{
 };
 
 } // namespace LedMatrixDisplay
