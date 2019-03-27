@@ -10,6 +10,7 @@
     "authors": [{
         "name": "Andrey Ovcharov",
         "email": "andrew.ovcharov@gmail.com",
+        "url": "https://ovcharov.me/",
         "maintainer": true
     }],
     "frameworks": "arduino",
