@@ -27,16 +27,20 @@ namespace MAX7219
 /**
  * @brief
  *
- * @tparam Canvas
+ * @tparam TCanvas
  * @tparam pinCS
  */
-template <class Canvas, const unsigned int pinCS>
-class MAX7219_Base : public Canvas
+template <class TCanvas, const unsigned int pinCS>
+class MAX7219_Base : public TCanvas
 {
 protected:
-  const unsigned int driverCount = Canvas::matrixCount;
+  const unsigned int driverCount = TCanvas::matrixCount;
 
 public:
+  /**
+   * @brief Initialize drivers
+   *
+   */
   void init()
   {
     pinMode(pinCS, OUTPUT);
@@ -121,12 +125,16 @@ public:
   }
 };
 
-template <class Canvas, const unsigned int pinCS>
-class MAX7219ColumnAnode : public MAX7219_Base<Canvas, pinCS>
+template <class TCanvas, const unsigned int pinCS>
+class MAX7219ColumnAnode : public MAX7219_Base<TCanvas, pinCS>
 {
-  typedef MAX7219_Base<Canvas, pinCS> TParent;
+  typedef MAX7219_Base<TCanvas, pinCS> TParent;
 
 public:
+  /**
+   * @brief Initialize drivers
+   *
+   */
   void init()
   {
     TParent::init();
@@ -134,6 +142,10 @@ public:
     TParent::send(MAX7219_REG_SCANLIMIT, TParent::matrixHeight - 1);
   }
 
+  /**
+   * @brief Send framebuffer contents to the devices
+   *
+   */
   void commit()
   {
     // process rows in all matrices
@@ -173,15 +185,19 @@ public:
 /**
  * @brief
  *
- * @tparam Canvas
+ * @tparam TCanvas
  * @tparam pinCS
  */
-template <class Canvas, const unsigned int pinCS>
-class MAX7219ColumnCathode : public MAX7219_Base<Canvas, pinCS>
+template <class TCanvas, const unsigned int pinCS>
+class MAX7219ColumnCathode : public MAX7219_Base<TCanvas, pinCS>
 {
-  typedef MAX7219_Base<Canvas, pinCS> TParent;
+  typedef MAX7219_Base<TCanvas, pinCS> TParent;
 
 public:
+  /**
+   * @brief Initialize drivers
+   *
+   */
   void init()
   {
     TParent::init();
@@ -189,6 +205,10 @@ public:
     TParent::send(MAX7219_REG_SCANLIMIT, TParent::matrixWidth - 1);
   }
 
+  /**
+   * @brief Send framebuffer content to the devices
+   *
+   */
   void commit()
   {
     // process rows in all matrices

@@ -8,6 +8,9 @@ namespace LedMatrixDisplay
 /**
  * @brief Definition of the LED matrix array geometry
  *
+ * Multiple matrices are connected in 2D array to build display. This class defines geometry
+ * of this array
+ *
  * @tparam TMatrix matrix definition
  * @tparam _cols columns
  * @tparam _rows rows

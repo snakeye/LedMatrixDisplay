@@ -5,6 +5,10 @@
 namespace LedMatrixDisplay
 {
 
+/**
+ * @brief Test alignment
+ *
+ */
 enum TextAlign
 {
   left,
