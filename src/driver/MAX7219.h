@@ -45,13 +45,10 @@ public:
     SPI.setDataMode(SPI_MODE0);
     SPI.setClockDivider(SPI_CLOCK_DIV128);
 
-    for (int i = 0; i < driverCount; i++)
-    {
-      send(MAX7219_REG_DECODEMODE, 0);
-      send(MAX7219_REG_DISPLAYTEST, 0);
-      send(MAX7219_REG_INTENSITY, 0);
-      send(MAX7219_REG_SHUTDOWN, 1);
-    }
+    send(MAX7219_REG_DECODEMODE, 0);
+    send(MAX7219_REG_DISPLAYTEST, 0);
+    send(MAX7219_REG_INTENSITY, 0);
+    send(MAX7219_REG_SHUTDOWN, 1);
   }
 
   /**
@@ -116,8 +113,8 @@ public:
     // now shift out the data
     for (unsigned int i = 0; i < driverCount; i++)
     {
-      SPI.transfer(regs[driverCount - i]);
-      SPI.transfer(values[driverCount - i]);
+      SPI.transfer(regs[driverCount - 1 - i]);
+      SPI.transfer(values[driverCount - 1 - i]);
     }
 
     digitalWrite(pinCS, HIGH);
@@ -187,7 +184,7 @@ class MAX7219ColumnCathode : public MAX7219_Base<Canvas, pinCS>
 public:
   void init()
   {
-    TParent::init(TParent::matrixCount);
+    TParent::init();
 
     TParent::send(MAX7219_REG_SCANLIMIT, TParent::matrixWidth - 1);
   }
